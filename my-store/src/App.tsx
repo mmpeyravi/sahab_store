@@ -1,25 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import ProductList from './components/ProductList';
+import ProductDetail from './components/ProductDetail';
+import Filter from './components/Filter';
+import Cart from './components/Cart';
+import { Product } from './types';
 
-function App() {
+const App: React.FC = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [cart, setCart] = useState<Product[]>([]);
+
+  useEffect(() => {
+    axios.get('https://api.example.com/products')
+        .then(response => {
+          setProducts(response.data);
+          setFilteredProducts(response.data);
+        });
+  }, []);
+
+  const handleFilter = (criteria: any) => {
+
+
+    setFilteredProducts(filteredProducts);
+  };
+
+  const handleAddToCart = (product: Product) => {
+    setCart([...cart, product]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div>
+        <Filter onFilter={handleFilter} />
+        <ProductList products={filteredProducts} onSelect={setSelectedProduct} />
+        {selectedProduct && <ProductDetail product={selectedProduct} />}
+        <Cart products={cart} />
+      </div>
   );
 }
 
