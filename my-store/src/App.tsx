@@ -13,8 +13,9 @@ const App: React.FC = () => {
   const [cart, setCart] = useState<Product[]>([]);
 
   useEffect(() => {
-    axios.get('https://api.example.com/products')
+    axios.get('https://fakestoreapi.com/products')
         .then(response => {
+            console.log(response.data)
           setProducts(response.data);
           setFilteredProducts(response.data);
         });

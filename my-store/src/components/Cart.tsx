@@ -10,7 +10,7 @@ const Cart: React.FC<CartProps> = ({ products }) => (
         <h2>سبد خرید</h2>
         {products.map(product => (
             <div key={product.id}>
-                <h3>{product.name}</h3>
+                <h3>{product.title}</h3>
                 <p>{product.price}</p>
             </div>
         ))}

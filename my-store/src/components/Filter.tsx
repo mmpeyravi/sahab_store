@@ -1,19 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface FilterProps {
     onFilter: (criteria: any) => void;
 }
 
 const Filter: React.FC<FilterProps> = ({ onFilter }) => {
-    const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        // اعمال فیلترها
-        onFilter({});
+    const [category, setCategory] = useState('');
+    const [name, setName] = useState('');
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
+    const [sort, setSort] = useState('');
+
+    const handleFilterChange = () => {
+        onFilter({ category, name, minPrice, maxPrice, sort });
     };
 
     return (
-        <div>
-            <input type="text" placeholder="جستجو..." onChange={handleFilterChange} />
-            {/* فیلترهای دیگر */}
+        <div className="filter">
+            <input
+                type="text"
+                placeholder="جستجو بر اساس نام..."
+                value={name}
+                onChange={(e) => { setName(e.target.value); handleFilterChange(); }}
+            />
+            <input
+                type="text"
+                placeholder="دسته‌بندی..."
+                value={category}
+                onChange={(e) => { setCategory(e.target.value); handleFilterChange(); }}
+            />
+            <input
+                type="number"
+                placeholder="حداقل قیمت..."
+                value={minPrice}
+                onChange={(e) => { setMinPrice(e.target.value); handleFilterChange(); }}
+            />
+            <input
+                type="number"
+                placeholder="حداکثر قیمت..."
+                value={maxPrice}
+                onChange={(e) => { setMaxPrice(e.target.value); handleFilterChange(); }}
+            />
+            <select value={sort} onChange={(e) => { setSort(e.target.value); handleFilterChange(); }}>
+                <option value="">مرتب‌سازی...</option>
+                <option value="asc">مرتب‌سازی بر اساس قیمت: کم به زیاد</option>
+                <option value="desc">مرتب‌سازی بر اساس قیمت: زیاد به کم</option>
+            </select>
         </div>
     );
 };
