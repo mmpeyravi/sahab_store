@@ -32,11 +32,14 @@ const App: React.FC = () => {
   };
 
   return (
-      <div>
-        <Filter onFilter={handleFilter} />
-        <ProductList products={filteredProducts} onSelect={setSelectedProduct} />
-        {selectedProduct && <ProductDetail product={selectedProduct} />}
-        <Cart products={cart} />
+      <div className="my-app">
+          <Filter onFilter={handleFilter}/>
+          <ProductList products={filteredProducts} onSelect={setSelectedProduct}/>
+          {selectedProduct && <ProductDetail product={selectedProduct}/>}
+          <div className='button-container'>
+              <button className="button-1">button 1</button>
+          </div>
+          <Cart products={cart}/>
       </div>
   );
 }
