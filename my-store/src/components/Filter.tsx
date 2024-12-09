@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Product} from "../types";
 
 interface FilterProps {
@@ -13,12 +13,14 @@ const Filter: React.FC<FilterProps> = ({onFilter}) => {
     const [maxPrice, setMaxPrice] = useState('');
     const [sort, setSort] = useState('');
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-
+/*
     const handleFilterChange = () => {
 
         onFilter({category, name, minPrice, maxPrice, sort});
-    };
-
+    };*/
+    useEffect(() => {
+        onFilter({category, name, minPrice, maxPrice,sort});
+    }, [category, name, minPrice, maxPrice,sort]);
 
     return (
         <div className="filter">
@@ -28,7 +30,8 @@ const Filter: React.FC<FilterProps> = ({onFilter}) => {
                 value={name}
                 onChange={(e) => {
                     setName(e.target.value);
-                    handleFilterChange();
+                    console.log('looloo:', e.target.value, name)
+                    //handleFilterChange();
                 }}
             />
             <input
@@ -37,7 +40,7 @@ const Filter: React.FC<FilterProps> = ({onFilter}) => {
                 value={category}
                 onChange={(e) => {
                     setCategory(e.target.value);
-                    handleFilterChange();
+                    //handleFilterChange();
                 }}
             />
             <input
@@ -46,7 +49,7 @@ const Filter: React.FC<FilterProps> = ({onFilter}) => {
                 value={minPrice}
                 onChange={(e) => {
                     setMinPrice(e.target.value);
-                    handleFilterChange();
+                    //handleFilterChange();
                 }}
             />
             <input
@@ -55,12 +58,14 @@ const Filter: React.FC<FilterProps> = ({onFilter}) => {
                 value={maxPrice}
                 onChange={(e) => {
                     setMaxPrice(e.target.value);
-                    handleFilterChange();
+                    console.log('looloo:', e.target.value, maxPrice)
+
+                    //handleFilterChange();
                 }}
             />
             <select value={sort} onChange={(e) => {
                 setSort(e.target.value);
-                handleFilterChange();
+                //handleFilterChange();
             }}>
                 <option value="">مرتب‌سازی...</option>
                 <option value="asc">مرتب‌سازی بر اساس قیمت: کم به زیاد</option>

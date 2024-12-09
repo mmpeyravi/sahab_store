@@ -24,9 +24,13 @@ const Home: React.FC<HomeProps> = () => {
             });
     }, []);
 
+
+
     const handleFilter = (criteria: any) => {
         let filtered = products;
+
         if (criteria.name) {
+            console.log(criteria.name)
             filtered = filtered.filter(product => product.title.toLowerCase().includes(criteria.name.toLowerCase()));
         }
         if (criteria.category) {
@@ -36,16 +40,19 @@ const Home: React.FC<HomeProps> = () => {
             filtered = filtered.filter(product => product.price >= parseFloat(criteria.minPrice));
         }
         if (criteria.maxPrice) {
+            console.log(criteria.maxPrice)
             filtered = filtered.filter(product => product.price <= parseFloat(criteria.maxPrice));
         }
+
         if (criteria.sort === 'asc') {
             filtered = filtered.sort((a, b) => a.price - b.price);
         } else if (criteria.sort === 'desc') {
             filtered = filtered.sort((a, b) => b.price - a.price);
         }
-        setFilteredProducts(filtered);
-    }
 
+        let newArr=[...filtered]
+        setFilteredProducts(newArr);
+    }
 
     const handleAddToCart = (product: Product) => {
         setCart([...cart, product]);
