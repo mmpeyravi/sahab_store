@@ -20,20 +20,41 @@ const Home: React.FC<HomeProps> = () => {
                 console.log(response.data)
                 setProducts(response.data);
                 setFilteredProducts(response.data);
+                localStorage.setItem('products', JSON.stringify(response.data));
             });
     }, []);
 
     const handleFilter = (criteria: any) => {
+        let filtered = products;
+        if (criteria.name) {
+            filtered = filtered.filter(product => product.title.toLowerCase().includes(criteria.name.toLowerCase()));
+        }
+        if (criteria.category) {
+            filtered = filtered.filter(product => product.category.toLowerCase() === criteria.category.toLowerCase());
+        }
+        if (criteria.minPrice) {
+            filtered = filtered.filter(product => product.price >= parseFloat(criteria.minPrice));
+        }
+        if (criteria.maxPrice) {
+            filtered = filtered.filter(product => product.price <= parseFloat(criteria.maxPrice));
+        }
+        if (criteria.sort === 'asc') {
+            filtered = filtered.sort((a, b) => a.price - b.price);
+        } else if (criteria.sort === 'desc') {
+            filtered = filtered.sort((a, b) => b.price - a.price);
+        }
+        setFilteredProducts(filtered);
+    }
 
-
-        setFilteredProducts(filteredProducts);
-    };
 
     const handleAddToCart = (product: Product) => {
         setCart([...cart, product]);
     };
     return (
-        <><Filter onFilter={handleFilter}/><ProductList products={filteredProducts} onSelect={setSelectedProduct}/></>
+        <>
+            <Filter onFilter={handleFilter}/>
+            <ProductList products={filteredProducts} onSelect={setSelectedProduct}/>
+        </>
     )
 }
 
